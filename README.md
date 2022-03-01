@@ -4,7 +4,7 @@ Crop videos using ffmpeg.
 
 ## How to
 
-To crop a video you have execute the command "python3 app.py <path to video>" or drag and drop the video onto the app.py file.
+To crop a video you have execute the command "python3 app.py [path to video]" or drag and drop the video onto the app.py file.
 
 Use the slider to change the video timestamp
 
