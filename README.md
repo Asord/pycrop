@@ -19,3 +19,7 @@ Use the "Save" button to create the cropped video.
 ## FFMPEG
 
 This program needs ffmpeg in order to work. You can update your ffmpeg installation folder by editing the line in tools.py
+
+## tkgen
+
+This application uses a modified version of tkgen from tmetsch. See tkgen/gengui.py for more informations.
