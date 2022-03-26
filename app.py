@@ -10,11 +10,15 @@ from tools import pad, Vec2, RectToWHXY, vecPad
 CANVAS_PADDING = Vec2(5, 5)
 
 class Window(TkJson):
-    def __init__(self, file, video_to_crop, title="Croppy", output_folder="", output_prefix="c_", tmp_folder="tmp"):
-        with open(file, "r") as fs: gui = fs.read()
-        TkJson.__init__(self, gui, title)
+    def __init__(self, file, video_to_crop: Path, output_folder: Path=None, output_prefix: str="cropped_", tmp_folder: str="tmp"):
 
-        self._video_to_crop = Path(video_to_crop).resolve()
+        with open(file, "r") as fs: 
+            gui = fs.read()
+        super().__init__(gui, "Cropper")
+
+        if output_folder is None: output_folder = video_to_crop.parent
+        self._video_to_crop = video_to_crop.resolve()
+
         self._ffmpeg = FFMPEG(self._video_to_crop, output_folder=output_folder, output_prefix=output_prefix, tmp_folder=tmp_folder)
         self._length = self._ffmpeg.getLength()
 
@@ -122,10 +126,13 @@ class Window(TkJson):
 
 if __name__ == "__main__":
     if len(argv) < 2:
+        print("Usage: python3 app.py [video_to_crop]")
         exit(-1)
-    video_to_crop = argv[1]
 
-    main = Window("gui.json", video_to_crop, output_folder="sample", output_prefix="crop_")
-    main.mainloop()
+    video_to_crop = Path(argv[1]).resolve()
 
-
+    if video_to_crop.Exists():
+        main = Window("gui.json", video_to_crop, output_prefix="cropped_")
+        main.mainloop()
+    else:
+        raise FileNotFoundError("The path to the video to crop does not exist")

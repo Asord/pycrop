@@ -65,8 +65,9 @@ class FFMPEG:
         _tmp_name = self._createTmpFile()
         _new_dim = self._createDim(new_dim)
         call("screenshot_crop", timestamp=timestamp, file_path=self._file_path, new_dim=_new_dim, tmp_name=_tmp_name)
-        try:  call("explorer.exe %s" % Path(_tmp_name).resolve()) # explorer love sending -1 errlvl for nothing...
-        except Exception as e: pass
+        
+        try:  call("explorer.exe %s" % Path(_tmp_name).resolve()) 
+        except Exception as e: pass # explorer love sending -1 errlvl for nothing...
 
     def __del__(self):
         self.clearTmp()
