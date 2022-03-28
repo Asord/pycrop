@@ -131,7 +131,7 @@ if __name__ == "__main__":
 
     video_to_crop = Path(argv[1]).resolve()
 
-    if video_to_crop.Exists():
+    if video_to_crop.exists():
         main = Window("gui.json", video_to_crop, output_prefix="cropped_")
         main.mainloop()
     else:
