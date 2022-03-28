@@ -1,7 +1,7 @@
 from time import strftime, gmtime
 from sys import argv
 from pathlib import Path
-from tkgen.gengui import TkJson
+from tkgen import TkJson
 from PIL import ImageTk, Image
 
 from utils import FFMPEG
@@ -10,7 +10,7 @@ from tools import pad, Vec2, RectToWHXY, vecPad
 CANVAS_PADDING = Vec2(5, 5)
 
 class Window(TkJson):
-    def __init__(self, file, video_to_crop: Path, output_folder: Path=None, output_prefix: str="cropped_", tmp_folder: str="tmp"):
+    def __init__(self, file, video_to_crop: Path, output_folder: Path=None, output_prefix: str="cropped_", tmp_folder: Path=None):
 
         with open(file, "r") as fs: 
             gui = fs.read()
@@ -75,7 +75,6 @@ class Window(TkJson):
     """ Scale """
     def _onScaleChange(self, value):
         self._lTimestamp.configure(text=self.ftime(value))
-        self._ffmpeg.clearTmp()
         self._getPreview()
 
 
