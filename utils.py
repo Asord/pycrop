@@ -6,7 +6,7 @@ from os import unlink, urandom
 from subprocess import check_output, STDOUT
 from os import listdir
 
-_FFMPEG_PATH = "C:\\DevTools\\ffmpeg\\bin\\"
+_FFMPEG_PATH = "vendor\\ffmpeg\\bin\\"
 
 _commands = {
     "crop":             'ffmpeg.exe  -i {file_path} -filter:v "crop={new_dim}" {output} -y',
