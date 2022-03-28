@@ -1,11 +1,11 @@
 from time import strftime, gmtime
 from sys import argv
 from pathlib import Path
-from tkgen import TkJson
+from utils.tkgen import TkJson
 from PIL import ImageTk, Image
 
-from utils import FFMPEG
-from tools import pad, Vec2, RectToWHXY, vecPad
+from utils.ffmpeg import FFMPEG
+from tools.math import pad, Vec2, RectToWHXY, vecPad
 
 CANVAS_PADDING = Vec2(5, 5)
 
