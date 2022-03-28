@@ -41,8 +41,6 @@ except ImportError:
 import json
 import os
 import traceback
-import yaml
-
 
 def _contains_dict(items):
     """
@@ -88,9 +86,6 @@ class TkGen:
         if file_type == 'json':
             user_interface = json.load(open(filename)) if os.path.isfile(
                 filename) else json.loads(filename)
-        elif file_type == 'yaml':
-            user_interface = yaml.load(open(filename)) if os.path.isfile(
-                filename) else yaml.loads(filename)
         else:
             raise ValueError('Only json or yaml file definitions are'
                              'supported.')
@@ -491,18 +486,3 @@ class TkJson(tkinter.Tk, TkGen):
         self.title(title)
 
         TkGen.__init__(self, filename, title, prefer_tk, file_type)
-
-
-class TkYaml(TkJson):
-    """
-    Wrapper class for parsing yaml files.
-    """
-
-    def __init__(self, filename, title='Tk', prefer_tk=True):
-        """
-        Initialize a Tk root and created the UI from a YAML file.
-
-        Returns the Tk root.
-        """
-        super(TkYaml, self).__init__(filename, title, prefer_tk,
-                                     file_type='yaml')
