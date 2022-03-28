@@ -1,25 +1,27 @@
 from sys import argv
 from pathlib import Path
 from binascii import b2a_hex
-from os import unlink, urandom
+from os import urandom
 from subprocess import check_output, STDOUT
 from os import listdir
 
 _APP_PATH = Path(argv[0]).resolve().parent
-_FFMPEG_PATH = "%s\\" % str(_APP_PATH.joinpath("vendor\\ffmpeg\\bin").resolve())
+_FFMPEG_PATH = _APP_PATH.joinpath("vendor\\ffmpeg\\bin").resolve()
 __DEBUG = False
 
 _commands = {
-    "crop":             'ffmpeg.exe  -i "{file_path}" -filter:v "crop={new_dim}" "{output}" -y',
-    "screenshot":       'ffmpeg.exe -ss {timestamp} -i "{file_path}" -vframes 1 -q:v 2 "{tmp_name}"',
-    "screenshot_crop":  'ffmpeg.exe -ss {timestamp} -i "{file_path}" -vf "crop={new_dim}" -vframes 1 "{tmp_name}"',
-    "length":           'ffprobe.exe -i "{file_path}" -show_entries format=duration -v quiet -of csv="p=0"',
+    "crop":             ( 'ffmpeg.exe', '-i "{file_path}" -filter:v "crop={new_dim}" "{output}" -y'),
+    "screenshot":       ( 'ffmpeg.exe', '-ss {timestamp} -i "{file_path}" -vframes 1 -q:v 2 "{tmp_name}"'),
+    "screenshot_crop":  ( 'ffmpeg.exe', '-ss {timestamp} -i "{file_path}" -vf "crop={new_dim}" -vframes 1 "{tmp_name}"'),
+    "length":           ('ffprobe.exe', '-i "{file_path}" -show_entries format=duration -v quiet -of csv="p=0"'),
 }
 
 def call(cmd_name, **kwargs):
 
     if cmd_name in _commands:
-        cmd = _FFMPEG_PATH+_commands[cmd_name].format(**kwargs)
+        _app = _FFMPEG_PATH.joinpath(_commands[cmd_name][0])
+        _args = _commands[cmd_name][1].format(**kwargs)
+        cmd = "%s %s" % (_app, _args)
     else:
         cmd = cmd_name
     if __DEBUG:
